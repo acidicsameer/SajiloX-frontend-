@@ -1,40 +1,69 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Login from "../../pages/auth/login/Login";
-import Register from "../../pages/auth/register/Register";
-
+import { ShoppingCart, Search } from "lucide-react";
+import {useSelector} from 'react-redux'
 const Navbar = () => {
+
+const items = useSelector(state => state.cart)
+ 
+
   return (
-    <>
-      <div class="fixed top-0 left-0 w-full z-50 bg-white border-b backdrop-blur-lg bg-opacity-80">
-        <div class="mx-auto max-w-7xl px-6 sm:px-6 lg:px-8 ">
-          <div class="relative flex h-16 justify-between">
-            <div class="flex flex-1 items-stretch justify-start">
-              <Link class="flex  items-center" href="#">
-                <img
-                  class="block h-12 w-auto"
-                  src="https://www.svgrepo.com/show/501888/donut.svg"
-                />
-              </Link>
-            </div>
-            <div class="flex-shrink-0 flex px-2 py-3 items-center space-x-8">
-              <Link
-                class="text-gray-700 hover:text-indigo-700 text-sm font-medium"
-              to ="/login" onClick={<Login/>}
-              >
-                Login
-              </Link>
-              <Link 
-                class="text-gray-800 bg-indigo-100 hover:bg-indigo-200 inline-flex items-center justify-center px-3 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm "
-               to ="/register" onClick={<Register/>}
-              >
-                Sign up
-              </Link>
-            </div>
+    <div className="fixed top-0 left-0 w-full z-50 bg-white border-b backdrop-blur-lg bg-opacity-80">
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="flex h-16 items-center justify-between">
+
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-2">
+            <img
+              className="h-10 w-10 rounded-full"
+              src="/src/assets/images/food.png"
+              alt="Logo"
+            />
+            <span className="font-semibold text-lg">FoodStore</span>
+          </Link>
+
+          {/* Search */}
+          <div className="hidden md:flex items-center bg-gray-100 px-3 py-1 rounded-md">
+            <Search size={18} className="text-gray-500" />
+            <input
+              type="text"
+              placeholder="Search products..."
+              className="bg-transparent outline-none px-2 text-sm"
+            />
           </div>
+
+          {/* Right Section */}
+          <div className="flex items-center gap-6">
+
+            {/* Cart */}
+            <Link to="/cart" className="relative">
+              <ShoppingCart className="text-gray-700" />
+              {items.length > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                  {items.length}
+                </span>
+              )}
+            </Link>
+
+            {/* Auth */}
+            <Link
+              to="/login"
+              className="text-gray-700 hover:text-indigo-700 text-sm font-medium"
+            >
+              Login
+            </Link>
+
+            <Link
+              to="/register"
+              className="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 text-sm rounded-md shadow"
+            >
+              Sign up
+            </Link>
+          </div>
+
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
