@@ -1,36 +1,31 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect} from "react";
 import { Link } from "react-router-dom"; 
-import axios from "axios";
-import { useDispatch } from "react-redux";
-import { add } from "../../../store/cartSlice";
+
+import { useDispatch, useSelector } from "react-redux";
+import { add } from "../../../store/cartSlice"; 
+import { fetchProducts } from "../../../store/productSlice";
 const Products = () => { 
- const [product,setProducts]=useState([]) 
+
     const dispatch= useDispatch() 
- const fetchProducts=async()=>{
-try {
-    const response=await  axios.get("http://localhost:3000/api/product")  
-if(response.status==200){
-    setProducts(response.data.data.product)
-console.log(response.data.data.product)
-}
-} catch (error) {
-    console.log("error occured ",error)
-    
-}
- }  
- function addtocart(item){ 
- 
-    dispatch(add(item))
-
-
- }
-
-
+ const {data:product,status} = useSelector(state => state.product)
+ function addtocart(item){
+  dispatch(add(item))
+} 
  useEffect(() => {
-     fetchProducts()
+    dispatch(fetchProducts())
  }, []);
+ 
+if(status=="pending") {
+  return <h1>loading...........</h1>
+}
+if(status=="error") {
+  return <h1>error...........</h1>
+}
+
+
+
   return (
   <>
   <h2 className="text-center text-green-600 text-3xl font-bold">Trending Foods</h2>
