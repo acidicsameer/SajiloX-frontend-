@@ -1,6 +1,30 @@
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { registerUser } from "../../../store/authSlice";
 const Register = () => {
- 
+  const dispatch=useDispatch()
+ const[userData,setUserData]=useState({
+     name:"",
+      email:"",
+       phone:"",
+      password:"",
+     
+
+ })
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUserData({
+      ...userData,
+      [name]: value
+    });
+  };
+
+  // Handle form submit
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(registerUser(userData));
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -11,7 +35,7 @@ const Register = () => {
           </h2>
         </div>
         
-        <form className="mt-8 space-y-6">
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
          
           
           <div className="rounded-md shadow-sm space-y-4">
@@ -24,6 +48,7 @@ const Register = () => {
                 required
                 className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Full name"
+                onChange={handleChange}
                
               />
             </div>
@@ -37,7 +62,19 @@ const Register = () => {
                 required
                 className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Email address"
-             
+             onChange={handleChange}
+              />
+            </div>
+             <div>
+              <label htmlFor="phone" className="sr-only">Email address</label>
+              <input
+                id="phone"
+                name="phone"
+                type="number"
+                required
+                className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="phone number"
+             onChange={handleChange}
               />
             </div>
             
@@ -50,22 +87,11 @@ const Register = () => {
                 required
                 className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Password"
-               
+               onChange={handleChange}
               />
             </div>
             
-            <div>
-              <label htmlFor="confirmPassword" className="sr-only">Confirm Password</label>
-              <input
-                id="confirmPassword"
-                name="confirmPassword"
-                type="password"
-                required
-                className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Confirm password"
-             
-              />
-            </div>
+           
           </div>
 
           <div>

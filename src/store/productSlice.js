@@ -1,11 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"; 
 import axios from "axios";
-const STATUSES={
-    SUCCESS:'success',
-    LOADING:'loading',
-    ERROR:"error"
-} 
+ import {STATUSES} from  '../components/misc/statuses.js'
 const ProductSlice=createSlice({
     name:"product",
     initialState:{
