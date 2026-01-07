@@ -1,9 +1,14 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../../../store/authSlice";
+import { STATUSES } from "../../../components/misc/statuses";
+
+import { useEffect } from "react";
 const Register = () => {
-  const dispatch=useDispatch()
+  const dispatch=useDispatch()  
+  const navigate=useNavigate()
+  const {status}=useSelector((state)=>state.auth)
  const[userData,setUserData]=useState({
      name:"",
       email:"",
@@ -20,10 +25,19 @@ const Register = () => {
     });
   };
 
+useEffect(() => {
+  if (status === STATUSES.SUCCESS) {
+    navigate("/login");
+  }
+}, [status, navigate]);
+
   // Handle form submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(registerUser(userData));
+      console.log(userData);
+
+    dispatch(registerUser(userData)); 
+  
   };
 
   return (
@@ -70,7 +84,7 @@ const Register = () => {
               <input
                 id="phone"
                 name="phone"
-                type="number"
+                type="text"
                 required
                 className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="phone number"
